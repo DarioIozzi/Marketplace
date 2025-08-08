@@ -4,7 +4,7 @@ public class Venditore extends Utente{
     String descrizione;
     float rating;
 
-    public Venditore(int id, String nome, String cognome, String email, String password,String telefono,String descrizione) {
+    public Venditore(String id, String nome, String cognome, String email, String password, String telefono, String descrizione) {
         super(id, nome, cognome, email, password, telefono);
         this.descrizione = descrizione;
         this.rating = 0.0f; // inizialmente il rating è 0

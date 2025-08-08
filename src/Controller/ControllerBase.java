@@ -1,5 +1,6 @@
 package Controller;
 import java.sql.*;
+import Model.Venditore;
 import org.mindrot.jbcrypt.BCrypt;
 import Model.Utente;
 
@@ -31,7 +32,7 @@ public class ControllerBase {
         this.utenteCorrente = utente;
     }
 
-    public Utente register(String id, String nome, String cognome, String email, String password, String telefono) {
+    public void register(String id, String nome, String cognome, String email, String password, String telefono) {
         String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
 
         try {
@@ -45,13 +46,34 @@ public class ControllerBase {
             stmt.setString(6, telefono);
             stmt.executeUpdate();
             System.out.println("✅ Registrazione completata.");
-            return new Utente(id, nome, cognome, email, passwordHash, telefono);
+            utenteCorrente = new Utente(id, nome, cognome, email, passwordHash, telefono);
         } catch (SQLException e) {
             System.out.println("❌ Errore durante la registrazione: " + e.getMessage());
-            return null;
         }
     }
-    public Utente login(String id, String password) {
+
+    public void register(String id, String nome, String cognome, String email, String password, String telefono, String descrizione) {
+        String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        try {
+            String query = "INSERT INTO utenti (id, nome, cognome, email, password, telefono, descrizione) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, id);
+            stmt.setString(2, nome);
+            stmt.setString(3, cognome);
+            stmt.setString(4, email);
+            stmt.setString(5, passwordHash);
+            stmt.setString(6, telefono);
+            stmt.setString(7, descrizione);
+            stmt.executeUpdate();
+            System.out.println("✅ Registrazione completata.");
+            utenteCorrente = new Venditore(id, nome, cognome, email, passwordHash, telefono, descrizione);
+        } catch (SQLException e) {
+            System.out.println("❌ Errore durante la registrazione: " + e.getMessage());
+        }
+    }
+
+    public void login(String id, String password) {
         try {
             String query = "SELECT password FROM utenti WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
@@ -67,7 +89,6 @@ public class ControllerBase {
                 if (BCrypt.checkpw(password, passwordHash)) {
                     System.out.println("✅ Login riuscito!");
                     utenteCorrente = new Utente(id, nome, cognome, email, passwordHash, telefono);
-                    return utenteCorrente;
                 } else {
                     System.out.println("❌ Password errata.");
                 }
@@ -77,9 +98,8 @@ public class ControllerBase {
         } catch (SQLException e) {
             System.out.println("❌ Errore durante il login: " + e.getMessage());
         }
-
-        return null;
     }
+
     public void logout() {
         this.utenteCorrente = null;
         System.out.println("🔒 Logout effettuato con successo!");
