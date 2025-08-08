@@ -12,6 +12,7 @@ public class ControllerBase {
 
     private ControllerBase() {
         try {
+            //TODO url database
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tuo_database", "utente", "password");
         } catch (SQLException e) {
             e.printStackTrace();
