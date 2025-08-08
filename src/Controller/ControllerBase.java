@@ -105,4 +105,9 @@ public class ControllerBase {
         this.utenteCorrente = null;
         System.out.println("🔒 Logout effettuato con successo!");
     }
+
+    public boolean isVenditore(){
+        //TODO ??
+        return true;
+    }
 }
