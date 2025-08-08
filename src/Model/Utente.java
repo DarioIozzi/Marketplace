@@ -2,7 +2,7 @@ package Model;
 
 public class Utente {
 
-    private int id;
+    private String id;
     private String nome;
     private String cognome;
     private String email;
@@ -10,7 +10,7 @@ public class Utente {
     float credito;
     private String telefono;
 
-    public Utente(int id, String nome, String cognome, String email, String password, String telefono) {
+    public Utente(String id, String nome, String cognome, String email, String password, String telefono) {
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
@@ -28,11 +28,11 @@ public class Utente {
         System.out.println("Telefono: " + telefono);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
